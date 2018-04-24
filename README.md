@@ -1,3 +1,1 @@
-https://raw.githubusercontent.com/bakito/tampermonkey-scripts/master/OpenShift-console.js
-
-[OpenSHift Console search](OpenShift-console.js) [install](https://raw.githubusercontent.com/bakito/tampermonkey-scripts/master/OpenShift-console.js)
+[OpenShift Console search](OpenShift-console.user.js) [install](https://raw.githubusercontent.com/bakito/tampermonkey-scripts/master/OpenShift-console.user.js)

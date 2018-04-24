@@ -1,11 +1,15 @@
 // ==UserScript==
-// @name         OpenShift
-// @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  add an additional search field to the OpenShift conole
+// @name         OpenShift Console
+// @namespace    https://github.com/bakito
+// @version      0.3
+// @description  add an additional search field to the OpenShift console
+// @run-at       document-end
 // @author       bakito
 // @match        https://*/console/
 // @grant        none
+// @icon         https://upload.wikimedia.org/wikipedia/commons/3/3a/OpenShift-LogoType.svg
+// @updateURL    https://raw.githubusercontent.com/bakito/tampermonkey-scripts/master/OpenShift-console.user.js
+// @downloadURL  https://raw.githubusercontent.com/bakito/tampermonkey-scripts/master/OpenShift-console.user.js
 // ==/UserScript==
 var myObserver = new MutationObserver(mutationHandler);
 var obsConfig = {
@@ -43,6 +47,7 @@ function addNewSearchField(node) {
             mi.style = "margin-top: 17px;";
             mi.class = node.class;
             mi.type = node.type;
+            mi.placeholder = node.placeholder;
             mi.autofocus = true;
             mi.oninput = function () {
                 var search = document.getElementById("search-projects");
