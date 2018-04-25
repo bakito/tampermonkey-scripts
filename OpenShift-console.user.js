@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         OpenShift Console
 // @namespace    https://github.com/bakito
-// @version      0.4
+// @version      0.5
 // @description  add an additional search field to the OpenShift console
 // @run-at       document-end
 // @author       bakito
 // @match        https://*/console/
+// @match        https://*/console/projects
 // @grant        none
 // @icon         https://upload.wikimedia.org/wikipedia/commons/3/3a/OpenShift-LogoType.svg
 // @updateURL    https://raw.githubusercontent.com/bakito/tampermonkey-scripts/master/OpenShift-console.user.js
@@ -26,10 +27,10 @@
 
         mutationRecords.forEach(function (mutation) {
             if (document.getElementById("openshift-custom-search") == null) {
-                if (mutation.type === "childList" && typeof mutation.addedNodes === "object" && mutation.addedNodes.length
-                ) {
-                    for (var J = 0, L = mutation.addedNodes.length; J < L; ++J) {
-                        addNewSearchField(mutation.addedNodes[J]);
+                var nodeLength = mutation.addedNodes.length;
+                if (mutation.type === "childList" && typeof mutation.addedNodes === "object" && nodeLength) {
+                    for (var i = 0; i < nodeLength; i++) {
+                        addNewSearchField(mutation.addedNodes[i]);
                     }
                 }
                 else if (mutation.type === "attributes") {
@@ -44,25 +45,31 @@
         if (node.nodeType === 1) {
             if (node.id === 'search-projects') {
 
-                var newInput = document.createElement("input");
-                // copy all attributes
-                cloneAttributes(node, newInput);
-                newInput.id = "openshift-custom-search";
-                newInput.style = "margin-top: 17px;";
-                newInput.autofocus = true;
-                newInput.oninput = function () {
-                    var search = document.getElementById("search-projects");
-                    search.value = newInput.value;
-                    var event = new Event('change');
-                    search.dispatchEvent(event);
-                };
-                var newSearchDiv = document.createElement("div");
-                newSearchDiv.class = "navbar-header";
-                newSearchDiv.appendChild(newInput);
+                var navbarRight = document.getElementsByClassName("navbar-right");
+                if (navbarRight.length > 0) {
+                    var newInput = document.createElement("input");
+                    // copy all attributes
+                    cloneAttributes(node, newInput);
+                    newInput.id = "openshift-custom-search";
+                    newInput.style = "margin-top: 17px;";
+                    newInput.autofocus = true;
+                    newInput.oninput = function () {
+                        var search = document.getElementById("search-projects");
+                        search.value = newInput.value;
+                        var event = new Event('change');
+                        search.dispatchEvent(event);
+                    };
+                    var newSearchDiv = document.createElement("div");
+                    newSearchDiv.class = "navbar-header";
+                    newSearchDiv.appendChild(newInput);
 
-                var header = document.getElementsByClassName("navbar-header")[0];
+                    var child = navbarRight[0].childNodes[0];
 
-                header.parentNode.insertBefore(newSearchDiv, header.nextSibling);
+                    var li = document.createElement("li");
+                    li.appendChild(newSearchDiv);
+
+                    navbarRight[0].insertBefore(li, child);
+                }
 
             }
         }
@@ -72,7 +79,7 @@
     function cloneAttributes(sourceNode, element) {
         let attr;
         let attributes = Array.prototype.slice.call(sourceNode.attributes);
-        while (attr = attributes.pop()) {
+        while ((attr = attributes.pop())) {
             element.setAttribute(attr.nodeName, attr.nodeValue);
         }
     }
