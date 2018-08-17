@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         OpenShift Console
 // @namespace    https://github.com/bakito
-// @version      0.5
+// @version      0.6
 // @description  add an additional search field to the OpenShift console
 // @run-at       document-end
 // @author       bakito
 // @match        https://*/console/
 // @match        https://*/console/projects
+// @match        https://*/console/catalog
 // @grant        none
 // @icon         https://upload.wikimedia.org/wikipedia/commons/3/3a/OpenShift-LogoType.svg
 // @updateURL    https://raw.githubusercontent.com/bakito/tampermonkey-scripts/master/OpenShift-console.user.js
