@@ -12,3 +12,4 @@
 ## Scripts
 
 * [OpenShift Console search](OpenShift-console.user.js) [install](https://raw.githubusercontent.com/bakito/tampermonkey-scripts/master/OpenShift-console.user.js)
+* [OpenShift deadman switch](OpenShift-deadman-switch.js) [install](https://raw.githubusercontent.com/bakito/tampermonkey-scripts/master/OpenShift-deadman-switch.js)
